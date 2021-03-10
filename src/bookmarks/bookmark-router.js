@@ -38,11 +38,47 @@ bookRouter
             .send('Invalid data');
     }
 
+    if(rating<0) {
+      logger.error(`Rating cannot be less than zero`);
+      return res
+          .status(400)
+          .send('Invalid data');
+    }
+
     if (!desc) {
         logger.error(`Description is required`);
         return res
             .status(400)
             .send('Invalid data');
+    }
+
+    const urlTest = url.split('.');
+
+    console.log(urlTest)
+
+    if(urlTest.length < 3) {
+      logger.error(`Not valid URL`);
+      return res
+          .status(400)
+          .send('Invalid data1');
+    }
+
+    if(urlTest[0] != 'http://www') {
+      if(urlTest[0] != 'https://www') {
+        if(urlTest[0] != 'www') {
+          logger.error(`Not valid URL`);
+          return res
+              .status(400)
+              .send('Invalid data2');
+        }
+      }
+    }
+
+    if(urlTest[2] != 'com') {
+      logger.error(`Not valid URL`);
+      return res
+          .status(400)
+          .send('Invalid data3');
     }
 
     const id = uuid();
